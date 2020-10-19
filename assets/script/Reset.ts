@@ -1,9 +1,12 @@
 
-const { ccclass, requireComponent } = cc._decorator;
+const { ccclass, property, requireComponent } = cc._decorator;
 
 @ccclass
 @requireComponent(cc.RigidBody)
 export default class Reset extends cc.Component {
+
+  @property(cc.AudioClip)
+  public sfx: cc.AudioClip = null;
 
   private originalPosition: cc.Vec2;
 
@@ -23,6 +26,7 @@ export default class Reset extends cc.Component {
   }
 
   private reset(): void {
+    if (this.sfx) cc.audioEngine.playEffect(this.sfx, false);
     this.body.linearVelocity = cc.Vec2.ZERO;
     this.body.angularVelocity = 0;
     this.body.active = false;
